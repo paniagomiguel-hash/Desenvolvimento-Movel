@@ -1,6 +1,8 @@
 package com.ifsc.app;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,12 +17,52 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (View v, WindowInsetsCompat insets) ->{
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
         Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
+        Log.d("cicloDaVida", "onCreate");
+
     }
 
     @Override
     protected void onStart(){
         super.onStart();
-        Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
+        android.widget.Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
+        Log.d("cicloDaVida", "onStart");
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        android.widget.Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+        Log.d("cicloDaVida", "onResume");
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        android.widget.Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
+        Log.d("cicloDaVida", "onStop");
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        android.widget.Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+        Log.d("cicloDaVida", "onPause");
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        android.widget.Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
+        Log.d("cicloDaVida", "onDestroy");
     }
 }
