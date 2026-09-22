@@ -1,5 +1,7 @@
 package com.ifsc.app;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -11,11 +13,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
-
-    String[] nomes =  new String[]{"Helena", "Livia", "Gabi 2026", "Pedro", "Romulo 2006", "Gabriel"};
-    ListView lv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,14 +28,8 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        lv = findViewById(R.id.listView);
-        AdapterNomes adapter = new AdapterNomes(this,
-                R.layout.item_lista,
-                R.id.editNome,
-                nomes
-        );
-        lv.setAdapter(adapter);
-        lv.setOnItemClickListener((parent, view, position, id) -> {
-            Toast.makeText(this, nomes[position], Toast.LENGTH_LONG).show();});
+        ListView listView = findViewById(R.id.listview_apps);
+        PackageManager packageManager = getPackageManager();
+        List<ApplicationInfo> packageInfoList = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
     }
 }
