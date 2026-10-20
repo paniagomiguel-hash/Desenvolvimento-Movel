@@ -15,4 +15,11 @@
         android:text="TextView"
         tools:layout_editor_absoluteX="169dp"
         tools:layout_editor_absoluteY="336dp" />
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
+        android:layout_width="415dp"
+        android:layout_height="656dp"
+        tools:layout_editor_absoluteX="-2dp"
+        tools:layout_editor_absoluteY="75dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
