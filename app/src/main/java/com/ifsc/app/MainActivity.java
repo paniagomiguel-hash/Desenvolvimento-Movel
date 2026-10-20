@@ -1,5 +1,9 @@
 package com.ifsc.app;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,30 +16,38 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    Integer i = 0;
+    LocationManager locationManager;
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main); // constraint, button e text?
-        TextView tv = findViewById(R.id.text);
-        tv.setText("-");
-
-
-
-        Button button = findViewById(R.id.button);
-        button.setText("Clique aqui");
-        button.setOnClickListener( v -> {
-            i++;
-            tv.setText("Ui six sevenn: " + Integer.toString(i));
-
-        });
-
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        textView = findViewById(R.id.textView);
+
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        //verifica se a permissão já foi concedida
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+
+            Location l = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            textView.setText(l.getLatitude()+","+l.getLongitude());
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, location -> {
+                textView.setText(location.getLatitude()+","+location.getLongitude());
+            });
+
+
+        } else {
+            //solicitar permissão em tempo de execução
+            requestPermissions(new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            }, 1);
+        }
     }
 }
